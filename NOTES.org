@@ -1,0 +1,98 @@
+See https://hackmd.io/s/rJ-3u92GQ# for collaborative editing.
+
+References: https://lgatto.github.io/TeachingMaterial/
+
+OO slides: https://github.com/lgatto/2017-04-03-adv-r-progr-EMBL/tree/master/roo
+
+* Package development
+
+ref: http://r-pkgs.had.co.nz/
+
+Bioc packages: 1560 packages
+
+Why R packages? Writing an R complete package will make you a better R
+programmer, and a better programmer in general, especially if you came
+to programming through R.
+
+Building package: use RStudio, to do as exercise
+
+Then demonstrate on command line with R CMD build/check/INSTALL
+
+Explain different parts of packages, following slides
+
+Exercise: add new function, to follow up with documentation
+
+Rstudio: code > insert Roxygen skeleton
+
+* Vignettes:
+
+demo Rmd and exercise
+
+* Testing with testthat
+
+-https://github.com/lgatto/2017-04-03-adv-r-progr-EMBL/blob/master/unittesting.md
+
+#+BEGIN_SRC R
+## buggy function
+isIn <- function(x, y) {
+    sel <- match(x, y)
+    y[sel]
+}
+
+## write a test for it
+test_that("isIn function", {
+    x <- c("A", "B", "Z")
+    expect_identical(x, isIn(x, LETTERS))
+    expect_identical(x, isIn(c(x, "a"), LETTERS))
+})
+
+
+## updated function
+isIn <- function(x, y) {
+    sel <- x %in% y
+    x[sel]
+}
+
+## re-run test
+#+END_SRC
+
+
+In packages: =./tests/testthat/=
+
+More exercises
+
+=covr=
+
+* Debugging
+
+See also https://github.com/lgatto/2017-04-03-adv-r-progr-EMBL/blob/master/robust/01-debug.md
+
+Defensive programming:
+- message, warning, stop
+- stopifnot
+
+- =debug=
+- Try it on readFasta
+- Exercise
+
+#+BEGIN_SRC R
+sequences:::debugme()
+f <- dir(system.file("extdata", package = "sequences"), full.names = TRUE, pattern = "more")
+readFasta2(f)
+debug(readFasta2)
+#+END_SRC
+
+* Profiling
+
+Slides are OK
+See also https://github.com/lgatto/2017-04-03-adv-r-progr-EMBL/blob/master/robust/02-profile.md
+
+* R and C/C++
+
+https://github.com/lgatto/rccpp/blob/master/rc.md
+
+* Submission
+
+- github - also mention travis-ci
+- CRAN
+- Bioconductor
